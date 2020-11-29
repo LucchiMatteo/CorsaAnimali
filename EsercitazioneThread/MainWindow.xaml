@@ -10,8 +10,9 @@
 
         <Image x:Name="imgSfondo" HorizontalAlignment="Left" Height="231" Margin="128,69,0,0" VerticalAlignment="Top" Width="437" Source="/pista.png"/>
         <Image x:Name="imgLepre" HorizontalAlignment="Left" Height="56" Margin="130,80,0,0" VerticalAlignment="Top" Width="59"/>
-        <Image x:Name="imgGhepardo" HorizontalAlignment="Left" Height="46" Margin="128,148,0,0" VerticalAlignment="Top" Width="55"/>
-        <Image x:Name="imgGiraffa" HorizontalAlignment="Left" Height="56" Margin="130,200,0,0" VerticalAlignment="Top" Width="39"/>
+        <Image x:Name="imgGhepardo" HorizontalAlignment="Left" Height="56" Margin="128,148,0,0" VerticalAlignment="Top" Width="59"/>
+        <Image x:Name="imgGiraffa" HorizontalAlignment="Left" Height="56" Margin="130,200,0,0" VerticalAlignment="Top" Width="59"/>
+        <Label x:Name="lblVincitore" Content="Vincitore?" HorizontalAlignment="Left" Margin="130,326,0,0" VerticalAlignment="Top" Height="124" Width="432" FontSize="24"/>
 
     </Grid>
 </Window>

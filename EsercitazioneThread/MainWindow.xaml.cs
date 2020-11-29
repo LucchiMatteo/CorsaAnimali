@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,16 +26,25 @@ namespace EsercitazioneThread
         readonly Uri uriGhepardo = new Uri("Ghepardo.png", UriKind.Relative);
         readonly Uri uriGiraffa = new Uri("Giraffa.png", UriKind.Relative);
 
-        DispatcherTimer timer = new DispatcherTimer();
-
-        int posX = 130;
+        
+        int posLeX = 130;
+        int posGhX = 130;
+        int posGiX = 130;
+        int limit = 520;
+        enum scelta { Lepre, Ghepardo, Giraffa};
+        scelta animale;
+        int vincitore = 0;
+        string vittoria = "";
+        
 
         public MainWindow()
         {
             InitializeComponent();
 
-            timer.Interval = TimeSpan.FromSeconds(0.1);
-            timer.Tick += timer_Tick;
+            
+            Thread t1 = new Thread(new ThreadStart(muoviLepre));
+            Thread t2 = new Thread(new ThreadStart(muoviGhepardo));
+            Thread t3 = new Thread(new ThreadStart(muoviGiraffa));
 
 
             ImageSource imm = new BitmapImage(uriLepre);
@@ -46,17 +56,117 @@ namespace EsercitazioneThread
             imm = new BitmapImage(uriGiraffa);
             imgGiraffa.Source = imm;
 
-            // timer.Start();
+
+           
+            t1.Start();
+            t2.Start();
+            t3.Start();
+            
 
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        public void muoviLepre()
         {
-            posX += 10;
-           imgLepre.Margin= new Thickness(posX, 80, 0, 0);
+            
+
+            while(posLeX<520)
+            {
+                animale = scelta.Lepre;
+
+                Thread.Sleep(TimeSpan.FromMilliseconds(200));
+
+                if(animale==scelta.Lepre)
+                    posLeX += 10;
+                else if (animale == scelta.Ghepardo)
+                    posGhX += 10;
+                else if (animale == scelta.Giraffa)
+                    posGiX += 10;
+
+
+                this.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    imgLepre.Margin = new Thickness(posLeX, 80, 0, 0);
+                }));
+            }
+
+            vincitore++;
+
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                vittoria += vincitore + " Lepre \r\n";
+                lblVincitore.Content = vittoria;
+            }));
+
 
         }
 
+        public void muoviGhepardo()
+        {
+            while (posGhX < 520)
+            {
+                animale = scelta.Ghepardo;
+
+                Thread.Sleep(TimeSpan.FromMilliseconds(200));
+
+                if (animale == scelta.Lepre)
+                    posLeX += 10;
+                else if (animale == scelta.Ghepardo)
+                    posGhX += 10;
+                else if (animale == scelta.Giraffa)
+                    posGiX += 10;
+
+                this.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    imgGhepardo.Margin = new Thickness(posGhX, 148, 0, 0);
+                }));
+            }
+
+            vincitore++;
+
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                vittoria += vincitore + " Ghepardo \r\n";
+                lblVincitore.Content = vittoria;
+            }));
+
 
         }
+
+        public void muoviGiraffa()
+        {
+            while (posGiX < 520)
+            {
+                animale = scelta.Giraffa;
+
+                Thread.Sleep(TimeSpan.FromMilliseconds(200));
+
+                if (animale == scelta.Lepre)
+                    posLeX += 10;
+                else if (animale == scelta.Ghepardo)
+                    posGhX += 10;
+                else if (animale == scelta.Giraffa)
+                    posGiX += 10;
+
+                this.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    imgGiraffa.Margin = new Thickness(posGiX, 200, 0, 0);
+                }));
+            }
+
+            vincitore++;
+
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                vittoria += vincitore + " Giraffa \r\n";
+                lblVincitore.Content = vittoria;
+            }));
+
+
+
+        }
+
+        
+
+       
+    }
 }
